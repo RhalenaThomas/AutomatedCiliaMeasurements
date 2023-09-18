@@ -3,6 +3,6 @@ sandbox.py
 sandbox2.py
 __pycache__
 *.html
-dist/
+#dist/
 venv/
-*.whl
+#*.whl
