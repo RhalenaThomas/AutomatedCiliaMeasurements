@@ -193,27 +193,40 @@ def main(**args):
     CSV_FOLDER = arguments["input"]
     OUTPUT_CSV_DIR_PATH = arguments["output"]
 
-    # Read input from input folder and keep only these fields
+    ### Reading CSVS and filtering fields
+
+    # Fields to filter
     fields = ["ImageNumber", "Location_Center_X", "Location_Center_Y"]
 
+    # Read filtered fields of nucleus csv into a dataframe
     cell_df = pd.read_csv(
         join(CSV_FOLDER, "MyExpt_Nucleus.csv"), skipinitialspace=True, usecols=fields
     )
+    # Get total number of images by reading the last ImageNumber entry from dataframe
     num_im = cell_df.ImageNumber.iat[-1]
+    # Group rows by ImageNumber
     grouped_cell = cell_df.groupby(["ImageNumber"])
+
+    # Read filtered fields of centriole csv into a dataframe
     centriole_df = pd.read_csv(
         join(CSV_FOLDER, "MyExpt_Centriole.csv"), skipinitialspace=True, usecols=fields
     )
+    # Group rows by Image number
     grouped_centriole = centriole_df.groupby(["ImageNumber"])
+    
+    # Read filtered fields of cilia csv into a dataframe
     cilia_df = pd.read_csv(
         join(CSV_FOLDER, "MyExpt_Cilia.csv"), skipinitialspace=True, usecols=fields
     )
+    # Group rows by Image number
     grouped_cilia = cilia_df.groupby(["ImageNumber"])
 
     # Make lists for the output
     c2c_output = []
     valid_cilia = []
     valid_cent = []
+
+    # Iterate over each ImageNumber
     for num in range(1, num_im + 1):
         # Convert groupby objects to list for easy access
         cell_list = make_lists(num, grouped_cell)
