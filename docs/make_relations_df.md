@@ -1,4 +1,4 @@
-# Make relations datafram module
+# Make relations dataframe module
 
 This module is required in the `AutomatedCiliaMeasurements` pipeline.
 
