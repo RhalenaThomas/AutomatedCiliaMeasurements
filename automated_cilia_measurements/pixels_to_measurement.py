@@ -3,28 +3,6 @@ import argparse
 import os
 
 
-def parse_args():
-    """
-    Parse passed in arguments
-
-    :returns: Necessary arguments to use the script
-    """
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-m", "--measurements", help="path to CellProfiler CSVs", required=True
-    )
-
-    parser.add_argument(
-        "-f", "--factor", help="factor to multiply the pixels by", required=True
-    )
-
-    parser.add_argument(
-        "-o", "--output", help="output path for CellProfiler CSVs", required=True
-    )
-
-    return vars(parser.parse_args())
-
-
 def convert_to_microm(
     multiply_factor, measurements_nuc, measurements_cilia, measurements_cent
 ):
@@ -66,10 +44,33 @@ def convert_to_microm(
     return measurements_nuc, measurements_cilia, measurements_cent
 
 
+def parse_args():
+    """
+    Parse passed in arguments
+
+    :returns: Necessary arguments to use the script
+    """
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument(
+        "-m", "--measurements", help="path to directory with CellProfiler CSVs", required=True
+    )
+
+    parser.add_argument(
+        "-f", "--factor", help="factor to multiply the pixels by", required=True
+    )
+
+    parser.add_argument(
+        "-o", "--output", help="output path for CellProfiler CSVs", required=True
+    )
+
+    return vars(parser.parse_args())
+
+
 def main(**args):
 
     args = args or parse_args()
-    
+
     measurements_nuc = pd.read_csv(
         os.path.join(args["measurements"], "MyExpt_Nucleus.csv"), skipinitialspace=True
     )

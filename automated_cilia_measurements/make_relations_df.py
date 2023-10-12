@@ -1,89 +1,7 @@
 import pandas as pd
 import numpy as np
 import argparse
-from os.path import join
-
-
-def parse_args():
-    """
-    Parse passed in arguments
-
-    :returns: Necessary arguments to use the script
-    """
-    # parse input arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "-m", "--measurements", help="path to CellProfiler CSVs", required=True
-    )
-
-    parser.add_argument("-c", "--c2c", help="path to c2c CSV", required=True)
-
-    parser.add_argument(
-        "-o",
-        "--output",
-        help="output folder to save relations df to",
-        required=True,
-    )
-
-    return vars(parser.parse_args())
-
-
-def main(**args):
-    args = args or parse_args()
-    # params we want to check
-
-    fields = [
-        "ImageNumber",
-        "ObjectNumber",
-        "AreaShape_Area",
-        "AreaShape_Compactness",
-        "AreaShape_Eccentricity",
-        "AreaShape_EquivalentDiameter",
-        "AreaShape_EulerNumber",
-        "AreaShape_Extent",
-        "AreaShape_FormFactor",
-        "AreaShape_MajorAxisLength",
-        "AreaShape_MaxFeretDiameter",
-        "AreaShape_MaximumRadius",
-        "AreaShape_MeanRadius",
-        "AreaShape_MedianRadius",
-        "AreaShape_MinFeretDiameter",
-        "AreaShape_MinorAxisLength",
-        "AreaShape_Orientation",
-        "AreaShape_Perimeter",
-        "AreaShape_Solidity",
-        "Location_Center_X",
-        "Location_Center_Y",
-    ]
-
-    # Convert the CSVs into dataframes and group by image
-    measurements_cilia = pd.read_csv(
-        join(args["measurements"], "MyExpt_Cilia.csv"),
-        skipinitialspace=True,
-        usecols=fields,
-    )
-
-    measurements_nuc = pd.read_csv(
-        join(args["measurements"], "MyExpt_Nucleus.csv"),
-        skipinitialspace=True,
-        usecols=fields,
-    )
-
-    measurements_cent = pd.read_csv(
-        join(args["measurements"], "MyExpt_Centriole.csv"),
-        skipinitialspace=True,
-        usecols=fields,
-    )
-
-    c2c_pairings = pd.read_csv(args["c2c"], skipinitialspace=True)
-
-    c2c_pairings = split_centriole_col(c2c_pairings)
-
-    full_df = normalize_and_clean(
-        measurements_nuc, measurements_cilia, measurements_cent, c2c_pairings
-    )
-    
-    full_df.to_csv(join(args.get("output"), "rel_and_attr_df.csv"))
+import os
 
 
 def split_centriole_col(c2c_pairings):
@@ -271,6 +189,95 @@ def normalize_and_clean(
     return full_df
 
 
+def parse_args():
+    """
+    Parse passed in arguments
+
+    :returns: Necessary arguments to use the script
+    """
+    parser = argparse.ArgumentParser()
+    
+    parser.add_argument(
+        "-m", "--measurements", help="path to directory with CellProfiler CSVs", required=True
+    )
+
+    parser.add_argument(
+        "-c", "--c2c", help="path to directory with c2c CSV", required=True
+    )
+
+    parser.add_argument(
+        "-o", "--output", help="output folder to save relations df to", required=True,
+    )
+
+    return vars(parser.parse_args())
+
+
+def main(**args):
+
+    args = args or parse_args()
+
+    make_relations_df_output_path = os.path.join(args["output"], "make_relations_df_output")
+    
+    if not os.path.exists(make_relations_df_output_path):
+        os.mkdir(make_relations_df_output_path)
+
+    fields = [
+        "ImageNumber",
+        "ObjectNumber",
+        "AreaShape_Area",
+        "AreaShape_Compactness",
+        "AreaShape_Eccentricity",
+        "AreaShape_EquivalentDiameter",
+        "AreaShape_EulerNumber",
+        "AreaShape_Extent",
+        "AreaShape_FormFactor",
+        "AreaShape_MajorAxisLength",
+        "AreaShape_MaxFeretDiameter",
+        "AreaShape_MaximumRadius",
+        "AreaShape_MeanRadius",
+        "AreaShape_MedianRadius",
+        "AreaShape_MinFeretDiameter",
+        "AreaShape_MinorAxisLength",
+        "AreaShape_Orientation",
+        "AreaShape_Perimeter",
+        "AreaShape_Solidity",
+        "Location_Center_X",
+        "Location_Center_Y",
+    ]
+
+    # Convert the CSVs into dataframes and group by image
+    measurements_cilia = pd.read_csv(
+        os.path.join(args["measurements"], "MyExpt_Cilia.csv"),
+        skipinitialspace=True,
+        usecols=fields,
+    )
+
+    measurements_nuc = pd.read_csv(
+        os.path.join(args["measurements"], "MyExpt_Nucleus.csv"),
+        skipinitialspace=True,
+        usecols=fields,
+    )
+
+    measurements_cent = pd.read_csv(
+        os.path.join(args["measurements"], "MyExpt_Centriole.csv"),
+        skipinitialspace=True,
+        usecols=fields,
+    )
+
+    c2c_pairings = pd.read_csv(
+        os.path.join(args["c2c"], "c2c_output.csv"),
+        skipinitialspace=True
+    )
+
+    c2c_pairings = split_centriole_col(c2c_pairings)
+
+    full_df = normalize_and_clean(
+        measurements_nuc, measurements_cilia, measurements_cent, c2c_pairings
+    )
+    
+    full_df.to_csv(os.path.join(make_relations_df_output_path, "rel_and_attr_df.csv"))
+
+    return make_relations_df_output_path
 
 
 if __name__ == "__main__":

@@ -235,12 +235,9 @@ def main(**args):
         measurements=csvs_in, output=dir_out
     )
 
-    
-    relational_output_path = os.path.join(dir_out, "c2c_output")
-    if not os.path.exists(relational_output_path):
-        os.mkdir(relational_output_path)
-
-    make_relations_df(measurements=csvs_in, c2c=os.path.join(c2c_output_path, "c2c_output.csv"), output=relational_output_path)
+    make_relations_df(
+        measurements=csvs_in, c2c=c2c_output_path, output=dir_out
+    )
     
 
     if (

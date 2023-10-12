@@ -176,12 +176,17 @@ def parse_args():
 
     :returns: Necessary arguments to use the script
     """
-    # get input/output fol using argparse
+
     parser = argparse.ArgumentParser()
+
     parser.add_argument(
-        "-m", "--measurements", help="folder with cellprofiler CSVs path", required=True
+        "-m", "--measurements", help="path to directory with CellProfiler CSVs", required=True
     )
-    parser.add_argument("-o", "--output", help="output folder path", required=True)
+
+    parser.add_argument(
+        "-o", "--output", help="output folder path", required=True
+    )
+    
     return vars(parser.parse_args())
 
 
