@@ -5,8 +5,7 @@ from collections import defaultdict
 from bisect import insort
 from scipy.spatial import KDTree
 import argparse
-from os.path import join
-
+import os
 
 def make_lists(im_num, grouped):
     """
@@ -180,7 +179,7 @@ def parse_args():
     # get input/output fol using argparse
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "-i", "--input", help="folder with cellprofiler CSVs path", required=True
+        "-m", "--measurements", help="folder with cellprofiler CSVs path", required=True
     )
     parser.add_argument("-o", "--output", help="output folder path", required=True)
     return vars(parser.parse_args())
@@ -188,10 +187,14 @@ def parse_args():
 
 def main(**args):
 
-    arguments = args or parse_args()
+    args = args or parse_args()
 
-    CSV_FOLDER = arguments["input"]
-    OUTPUT_CSV_DIR_PATH = arguments["output"]
+    ### Make output path if not exist
+
+    center2center_output_path = os.path.join(args["output"], "center2center_output")
+
+    if not os.path.exists(center2center_output_path):
+        os.mkdir(center2center_output_path)
 
     ### Reading CSVS and filtering fields
 
@@ -200,23 +203,25 @@ def main(**args):
 
     # Read filtered fields of nucleus csv into a dataframe
     cell_df = pd.read_csv(
-        join(CSV_FOLDER, "MyExpt_Nucleus.csv"), skipinitialspace=True, usecols=fields
+        os.path.join(args["measurements"], "MyExpt_Nucleus.csv"), skipinitialspace=True, usecols=fields
     )
+
     # Get total number of images by reading the last ImageNumber entry from dataframe
     num_im = cell_df.ImageNumber.iat[-1]
+
     # Group rows by ImageNumber
     grouped_cell = cell_df.groupby(["ImageNumber"])
 
     # Read filtered fields of centriole csv into a dataframe
     centriole_df = pd.read_csv(
-        join(CSV_FOLDER, "MyExpt_Centriole.csv"), skipinitialspace=True, usecols=fields
+        os.path.join(args["measurements"], "MyExpt_Centriole.csv"), skipinitialspace=True, usecols=fields
     )
     # Group rows by Image number
     grouped_centriole = centriole_df.groupby(["ImageNumber"])
     
     # Read filtered fields of cilia csv into a dataframe
     cilia_df = pd.read_csv(
-        join(CSV_FOLDER, "MyExpt_Cilia.csv"), skipinitialspace=True, usecols=fields
+        os.path.join(args["measurements"], "MyExpt_Cilia.csv"), skipinitialspace=True, usecols=fields
     )
     # Group rows by Image number
     grouped_cilia = cilia_df.groupby(["ImageNumber"])
@@ -257,9 +262,11 @@ def main(**args):
     valid_cent_df = pd.DataFrame(valid_cent)
     valid_cilia_df = pd.DataFrame(valid_cilia)
 
-    convert_dict_to_csv(c2c_output, join(OUTPUT_CSV_DIR_PATH, "c2c_output.csv"))
-    valid_cent_df.to_csv(join(OUTPUT_CSV_DIR_PATH, "new_cent.csv"))
-    valid_cilia_df.to_csv(join(OUTPUT_CSV_DIR_PATH, "new_cilia.csv"))
+    convert_dict_to_csv(c2c_output, os.path.join(center2center_output_path, "c2c_output.csv"))
+    valid_cent_df.to_csv(os.path.join(center2center_output_path, "new_cent.csv"))
+    valid_cilia_df.to_csv(os.path.join(center2center_output_path, "new_cilia.csv"))
+
+    return center2center_output_path
 
 
 if __name__ == "__main__":

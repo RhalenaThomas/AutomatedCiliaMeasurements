@@ -67,7 +67,9 @@ def convert_to_microm(
 
 
 def main(**args):
+
     args = args or parse_args()
+    
     measurements_nuc = pd.read_csv(
         os.path.join(args["measurements"], "MyExpt_Nucleus.csv"), skipinitialspace=True
     )
@@ -86,7 +88,7 @@ def main(**args):
         multiply_factor, measurements_nuc, measurements_cilia, measurements_cent
     )
 
-    pixel_to_measurements_output_path = os.path.join(args['output'], "pixel_to_measurements")
+    pixel_to_measurements_output_path = os.path.join(args['output'], "pixel_to_measurements_output")
 
     if not os.path.exists(pixel_to_measurements_output_path):
         os.mkdir(pixel_to_measurements_output_path)

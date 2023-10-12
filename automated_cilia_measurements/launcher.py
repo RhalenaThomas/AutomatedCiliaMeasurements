@@ -4,7 +4,7 @@ import argparse
 from automated_cilia_measurements.pixels_to_measurement import (
     main as pixels_to_measurement,
 )
-from automated_cilia_measurements.center2center import main as c2c
+from automated_cilia_measurements.center2center import main as center2center
 from automated_cilia_measurements.clustering import main as clustering
 from automated_cilia_measurements.make_relations_df import main as make_relations_df
 from automated_cilia_measurements.label_cprof_im import main as label_cprof_im
@@ -231,12 +231,9 @@ def main(**args):
             measurements=csvs_in, factor=args["factor"], output=dir_out
         )
 
-    c2c_output_path = os.path.join(dir_out, "c2c_output")
-
-    if not os.path.exists(c2c_output_path):
-        os.mkdir(c2c_output_path)
-
-    c2c(input=csvs_in, output=c2c_output_path)
+    c2c_output_path = center2center(
+        measurements=csvs_in, output=dir_out
+    )
 
     
     relational_output_path = os.path.join(dir_out, "c2c_output")
