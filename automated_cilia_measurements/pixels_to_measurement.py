@@ -56,12 +56,12 @@ def convert_to_microm(
         measurements_cilia[col] = multiply_factor * measurements_cilia[col]
         measurements_cent[col] = multiply_factor * measurements_cent[col]
 
-    multiply_factor = multiply_factor * multiply_factor
+    multiply_factor_2x = multiply_factor * multiply_factor
 
     for col in to_multiply_2x:
-        measurements_nuc[col] = multiply_factor * measurements_nuc[col]
-        measurements_cilia[col] = multiply_factor * measurements_cilia[col]
-        measurements_cent[col] = multiply_factor * measurements_cent[col]
+        measurements_nuc[col] = multiply_factor_2x * measurements_nuc[col]
+        measurements_cilia[col] = multiply_factor_2x * measurements_cilia[col]
+        measurements_cent[col] = multiply_factor_2x * measurements_cent[col]
 
     return measurements_nuc, measurements_cilia, measurements_cent
 
