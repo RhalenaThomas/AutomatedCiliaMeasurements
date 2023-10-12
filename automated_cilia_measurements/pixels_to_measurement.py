@@ -1,6 +1,6 @@
 import pandas as pd
 import argparse
-from os.path import join
+import os
 
 
 def parse_args():
@@ -69,26 +69,33 @@ def convert_to_microm(
 def main(**args):
     args = args or parse_args()
     measurements_nuc = pd.read_csv(
-        join(args["measurements"], "MyExpt_Nucleus.csv"), skipinitialspace=True
+        os.path.join(args["measurements"], "MyExpt_Nucleus.csv"), skipinitialspace=True
     )
 
     measurements_cilia = pd.read_csv(
-        join(args["measurements"], "MyExpt_Cilia.csv"), skipinitialspace=True
+        os.path.join(args["measurements"], "MyExpt_Cilia.csv"), skipinitialspace=True
     )
 
     measurements_cent = pd.read_csv(
-        join(args["measurements"], "MyExpt_Centriole.csv"), skipinitialspace=True
+        os.path.join(args["measurements"], "MyExpt_Centriole.csv"), skipinitialspace=True
     )
+    
     multiply_factor = float(args["factor"])
 
     measurements_nuc, measurements_cilia, measurements_cent = convert_to_microm(
         multiply_factor, measurements_nuc, measurements_cilia, measurements_cent
     )
 
-    measurements_nuc.to_csv(join(args["output"], "MyExpt_Nucleus.csv"))
-    measurements_cilia.to_csv(join(args["output"], "MyExpt_Cilia.csv"))
-    measurements_cent.to_csv(join(args["output"], "MyExpt_Centriole.csv"))
+    pixel_to_measurements_output_path = os.path.join(args['output'], "pixel_to_measurements")
 
+    if not os.path.exists(pixel_to_measurements_output_path):
+        os.mkdir(pixel_to_measurements_output_path)
+
+    measurements_nuc.to_csv(os.path.join(pixel_to_measurements_output_path, "MyExpt_Nucleus.csv"))
+    measurements_cilia.to_csv(os.path.join(pixel_to_measurements_output_path, "MyExpt_Cilia.csv"))
+    measurements_cent.to_csv(os.path.join(pixel_to_measurements_output_path, "MyExpt_Centriole.csv"))
+
+    return pixel_to_measurements_output_path
 
 if __name__ == "__main__":
     main()

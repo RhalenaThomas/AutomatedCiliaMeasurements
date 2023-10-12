@@ -214,25 +214,22 @@ def parse_args():
 
 
 def main(**args):
+    
     args = args or parse_args()
+    
     dir_out = args["output"]
 
     if not os.path.exists(dir_out):
         os.makedirs(dir_out)
 
     csvs_in = args["input_csvs"]
+    
     images_in = args["input_images"]
 
     if args.get("factor"):
-        microm_conversion_path = os.path.join(dir_out, "microm_converted")
-
-        if not os.path.exists(microm_conversion_path):
-            os.mkdir(microm_conversion_path)
-
-        pixels_to_measurement(
-            measurements=csvs_in, factor=args["factor"], output=microm_conversion_path
+        csvs_in = pixels_to_measurement(
+            measurements=csvs_in, factor=args["factor"], output=dir_out
         )
-        csvs_in = microm_conversion_path
 
     c2c_output_path = os.path.join(dir_out, "c2c_output")
 
