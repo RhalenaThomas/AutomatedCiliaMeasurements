@@ -50,3 +50,29 @@ From CellProfiler CSV files (Nucleus, Centriole, and Cilia), match valid centrio
 ## Helper functions
 
 ## Implementation details
+
+A folder `center2center_output` is created at the `-output` path specified as an argument.
+
+The fields `ImageNumber`, `Location_Center_X` and `Location_Center_Y` are read from the CellProfiler CSV files (from `-input` argument specified) into respective dataframes.
+The dataframes (representing nuclei, cilias and centrioles) are then grouped by their `ImageNumber`.
+
+For each `ImageNumber`:
+
+* The cells, centrioles and cilia associated with that `ImageNumber` are each made into a separate list.
+
+* Each centriole is matched to its closest nucleus.
+
+    * Each nucleus can have a maximum of 2 centrioles.
+
+    * A threshold of distance is also set.
+
+    * If, for any matching, the distance is beyond threshold, the centriole is invalidated.
+
+    * If, for any nucleus, more than 2 centrioles are matched the furthest one(s) is invalidated.
+
+    * Any invalidated centriole is added to a list of indices which is removed from initial list of centrioles built per `ImageNumber`.
+
+* The same process is repeated for each cilium matched to its closest nucleus, with a maximum of 1 cilium matched with any particular nucleus.
+
+* The matched centrioles and cilias are combined with their associated nucleus, displaying the following fields: `ImageNumber`, `Nucleus`, `PathLengthCentriole`, `Centriole`, `PathLengthCilia` and `Cilia`.
+

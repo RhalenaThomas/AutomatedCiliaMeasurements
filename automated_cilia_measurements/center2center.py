@@ -45,11 +45,12 @@ def nearest_child(parent_list, child_list, arity, threshold=float("inf")):
 
     for child_idx, child_coords in enumerate(child_list):
         dist, parent_idx = kd_tree.query(child_coords)
-        parent_idx = parent_idx + 1
+        parent_idx = parent_idx + 1 ## REASON: 1-based index
 
         if dist > threshold:
             child_to_parent[child_idx]["path_length"] = -1
             child_to_parent[child_idx]["parent"] = -1
+            ## TO CHECK: Add this index to child to remove??
             continue
 
         child_to_parent[child_idx]["path_length"] = dist
