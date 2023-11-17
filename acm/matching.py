@@ -3,6 +3,7 @@ import numpy as np
 from pathlib import Path
 import math
 import argparse
+import matplotlib.pyplot as plt
 from helper import match, read_cellprofiler_csv
 
 def main(**args):
@@ -15,6 +16,8 @@ def main(**args):
     output_path.mkdir(parents=True, exist_ok=True)
     data_tables_path = Path(output_path, "data_tables")
     data_tables_path.mkdir(parents=True, exist_ok=True)
+    plots_path = Path(output_path, "plots")
+    plots_path.mkdir(parents=True, exist_ok=True)
 
     # Read CellProfiler CSVs into dataframes
     nucleus_df = read_cellprofiler_csv(Path(cellprofiler_input_path, "MyExpt_Nucleus.csv"), "Nucleus")
@@ -32,11 +35,14 @@ def main(**args):
     # Calculate the mean of each feature for all matched organelles of each image
     organelle_id_fields = ["Nucleus", "Centriole1", "Centriole2", "Cilia"]
     mean_per_image_df = all_measures_by_cilia_df.drop(organelle_id_fields, axis=1).groupby("ImageNumber").mean().add_prefix("Mean_")
+    mean_per_image_df.reset_index(inplace=True)
     mean_per_image_df.to_csv(Path(data_tables_path, "mean_per_image.csv"), index=False)
 
     summary_counts_df = summary_count(c2c_df, nucleus_df, centriole_df, cilia_df)
     summary_counts_df.to_csv(Path(data_tables_path, "summary_counts.csv"), index=False)
+    
     #TODO: Plots
+    plot_mean_per_image(mean_per_image_df, plots_path)
 
 
 def parse_args():
@@ -217,6 +223,14 @@ def summary_count(c2c_df, nucleus_df, centriole_df, cilia_df):
     count_df = count_df.merge(match_count_df, on="ImageNumber")
 
     return count_df
+
+def plot_mean_per_image(mean_per_image_df, out_path):
+    for col in mean_per_image_df.columns:
+        if col == "ImageNumber":
+            continue
+        ax = mean_per_image_df.plot.bar(x="ImageNumber", y=col, title=col, width=1, align="edge")
+        plt.savefig(Path(out_path, (col + ".png")))
+        plt.close()
 
 if __name__ == "__main__":
     main()
