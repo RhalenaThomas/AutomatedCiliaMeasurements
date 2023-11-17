@@ -1,10 +1,11 @@
+import pandas as pd
 from bisect import insort
 from collections import defaultdict
 from scipy.spatial import KDTree
 
-def match(parents, childs, arity, threshold=float("inf")):
+def match(parents, childs, arity, thresholds=None):
 
-    kd_tree = KDTree(parents)
+    kd_tree = KDTree(data=parents, leafsize=10)
 
     child_to_parent = {}
     visited_child = {}
@@ -25,15 +26,21 @@ def match(parents, childs, arity, threshold=float("inf")):
         # Target child_idx to lookup in KDTree
         lookup_child_idx = child_idx
 
-        for k in range(1, num_parents):
+        for k in range(1, num_parents+1):
 
             # Query closest parent
-            dist_arr, parent_idx_arr = kd_tree.query(visited_child[lookup_child_idx], [k])
-            dist = float(dist_arr)
-            parent_idx = int(parent_idx_arr)
+            dist_arr, parent_idx_arr = kd_tree.query(x=visited_child[lookup_child_idx], k=[k], workers=1)
+            dist = float(dist_arr[0])
+            parent_idx = int(parent_idx_arr[0])
 
-            # If closest parent distance is greater than threshold, child is automatically invalidated
-            if dist > threshold:
+            # Get threshold
+            if thresholds:
+                threshold = 2.5 * thresholds[parent_idx]
+            else:
+                threshold = float("inf")
+
+            # If closest parent distance is greater than threshold or if missing neighbor (dist is inf), child is automatically invalidated
+            if dist > threshold or dist == float("inf"):
                 child_to_parent[lookup_child_idx]["path_length"] = -1
                 child_to_parent[lookup_child_idx]["parent"] = -1
                 break
@@ -68,4 +75,11 @@ def match(parents, childs, arity, threshold=float("inf")):
                 # If insertion suceed, proceed to next child in list
                 break
 
-    return child_to_parent
+    return child_to_parent      
+
+
+def read_cellprofiler_csv(csv_path, organelle):
+    cellprofiler_df = pd.read_csv(csv_path, skipinitialspace=True)
+    cellprofiler_df = cellprofiler_df.astype({"ImageNumber": pd.Int64Dtype(), "ObjectNumber": pd.Int64Dtype()})
+    cellprofiler_df.rename(columns={"ObjectNumber": organelle}, inplace=True)
+    return cellprofiler_df
