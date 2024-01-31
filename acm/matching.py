@@ -4,6 +4,7 @@ from pathlib import Path
 import math
 import argparse
 import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
 from helper import match, read_cellprofiler_csv
 
 def main(**args):
@@ -41,7 +42,6 @@ def main(**args):
     summary_counts_df = summary_count(c2c_df, nucleus_df, centriole_df, cilia_df)
     summary_counts_df.to_csv(Path(data_tables_path, "summary_counts.csv"), index=False)
     
-    #TODO: Plots
     plot_mean_per_image(mean_per_image_df, plots_path)
 
 
@@ -231,6 +231,70 @@ def plot_mean_per_image(mean_per_image_df, out_path):
         ax = mean_per_image_df.plot.bar(x="ImageNumber", y=col, title=col, width=1, align="edge")
         plt.savefig(Path(out_path, (col + ".png")))
         plt.close()
+
+def top_list(pc, n):
+    """
+    Make list of top n elements given list pc
+
+    :param pc: List of elements
+    :param n: How many top elements should be selected
+    :returns: List of top n elements in list pc 
+    """
+    top_list = []
+    # top list should be a tuple of the form (index, number)
+    # index so we can find it later and number so we can cont with top list
+
+    for cur_index, cur_elem in enumerate(pc):
+        added = False
+        # If the current word in the dictionary is bigger than the one in the list add it here
+        for li_index, (old_index, old_elem) in enumerate(top_list):
+            if cur_elem >= old_elem:
+                top_list = (
+                    top_list[:li_index] + [(cur_index, cur_elem)] + top_list[li_index:]
+                )
+                added = True
+                break
+
+        # If we get through the whole top 10 list and we haven't added anything, we must be smaller than everything or the list
+        # may be less than the number of elem, so add indiscriminately
+        if not added:
+            top_list.append((cur_index, cur_elem))
+
+        # Remove the smallest element in the list if the list is already full
+        if len(top_list) > n:
+            top_list.pop()
+
+    return top_list
+
+def pca_features(full_df, output):
+    """
+    Find most relevant features via performing a 7D PCA
+
+    :param full_df: Normalized dataframe of all measurements to be used in clustering
+    :param output: Output path for images
+    :param pca_7d: 7D PCA instance
+    :returns: None
+    """
+    # Perform 7d PCA
+    pca_7d = PCA(n_components=7)
+    _ = pca_7d.fit_transform(full_df)
+    components_list = abs(pca_7d.components_)
+    columns_mapping = list(full_df.columns)
+
+    pc_components = []
+    # Find top five elem in each PC
+    for component in components_list:
+        component = component.tolist()
+        sorted_components = top_list(component, 5)
+        pc_components.append(sorted_components)
+
+    # Print to file
+    with open(join(output, f"pca_features.txt"), "w") as f:
+        f.write(f"the 5 important features for each principal component are: ")
+        for pc_num, sorted_components in enumerate(pc_components):
+            f.write(f"PC number {pc_num}:\n")
+            for index, _ in sorted_components:
+                f.write(f" {columns_mapping[index]}\n")
 
 if __name__ == "__main__":
     main()
