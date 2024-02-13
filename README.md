@@ -1,7 +1,13 @@
 # AutomatedCiliaMeasurements
-Pipeline to measure cilia, nuclei, and centrioles, and to measure which cilia are close to which nuclei and centrioles using CellProfiler and Python.  Features a GUI and a CLI for easy use. 
+A Pipeline to identify and measure features of cilia, nuclei, and centrioles from microscopy images and to match cilia with nuclei and centrioles using CellProfiler and Python.  There is an option of Graphical User Interface (GUI) and command line interface (CLI) for easy use for different user types. 
 
-Pipeline parts: 
+# Pipeline compenents: 
+A) Cellprofiler. 
+(1) We have provided cell profiler pipelines but these must be adapted for each use case via the cell profiler GUI. Be certain to keep all the same outputs selected. 
+(2) The outputs from cell profiler are the input speadsheets for the python scripts. 
+
+B) Python pipeline to match cilia and centroiles with nuclei, summarize feature measurements and generate summary plots. The following scripts are part of the pipeline.
+
 (1) center2center: Algorithm that matches nuclei with cilia and centrioles, and determines which cilia and centrioles are valid (being paired with a nucleus means they are valid, and being unpaired means they are noise).
 
 (2) clustering: X-Means clustering on valid cilia results from output.
