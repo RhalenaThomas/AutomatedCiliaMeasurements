@@ -11,7 +11,7 @@ cd /release/Linux_and_Mac
 sh install.sh
 cd ../..
 source venv/bin/activate
-run command `python script.py -i <CellProfiler_csvs_path> -o <Desired output path>`
+run command `python acm/script.py -i <CellProfiler_csvs_path> -o <Desired output path>`
 
 
 automated_cilia_measurements --help # Ignore this for now. There are multiple versions mismatch now
