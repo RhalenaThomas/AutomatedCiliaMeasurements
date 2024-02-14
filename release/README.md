@@ -11,13 +11,17 @@ cd /release/Linux_and_Mac
 sh install.sh
 cd ../..
 source venv/bin/activate
-run command `python acm/script.py -i <CellProfiler_csvs_path> -o <Desired output path>`
+`python acm/script.py -i <CellProfiler_csvs_path> -o <Desired output path>` # example code
+
+# pathway to cell profile output /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/sample_csvs
+# pathway to output /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/test_out2
+# code to run
+python acm/script.py -i /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/Neuron_cellprofiler_output_csvs -o /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/PythonPipeline_outputs
 
 
 automated_cilia_measurements --help # Ignore this for now. There are multiple versions mismatch now
 
-# command to run pipeline
-please put the example how to run the pipelne here @Krishna
+
 
 ## Windows
 
