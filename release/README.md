@@ -9,8 +9,12 @@ First, navigate to the Linux_and_Mac folder. To run the GUI, run `sh gui.sh`. To
 # code to run directly in terminal
 cd /release/Linux_and_Mac
 sh install.sh
-source ../venv/bin/activate
-automated_cilia_measurements --help # this give an error
+cd ../..
+source venv/bin/activate
+run command `python script.py -i <CellProfiler_csvs_path> -o <Desired output path>`
+
+
+automated_cilia_measurements --help # Ignore this for now. There are multiple versions mismatch now
 
 # command to run pipeline
 please put the example how to run the pipelne here @Krishna
