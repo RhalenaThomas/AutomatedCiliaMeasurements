@@ -1,7 +1,21 @@
 # AutomatedCiliaMeasurements
-A Pipeline to identify and measure features of cilia, nuclei, and centrioles from microscopy images and to match cilia with nuclei and centrioles using CellProfiler and Python.  There is an option of Graphical User Interface (GUI) and command line interface (CLI) for easy use for different user types. 
+A Pipeline to identify and measure features of cilia, nuclei, and centrioles from microscopy images and to match cilia with nuclei and centrioles using CellProfiler and Python.  The python pipeline is easy to install and runs by one command inside a virtual enviroment that automatically installs all the needed packages. 
 
-# Pipeline compenents: 
+# Installation
+
+1) Copy this github repository to download all the needed files. You can do this by clicking on the green button that says "Code".  Choose your download method: select "Download ZIP" if you do not use github.
+2) Unzip you folder
+3) Open the file "Running_Instructions" detailed instructions.
+4) You will have all the files to run the python pipeline with our data as a test. 
+
+# Pipeline Usage
+
+A) CellProfiler: Install and run a Cellprofiler pipeline using our cell profiler projects as a template. See this site for how to use Cellprofiler.  https://cellprofiler.org/getting-started
+   Run your CellProfiler analysis. The outputs must all be in one folder and are required for python pipeline to function.
+B) Python automated cilia detection: Install python pipeline from this github repository (see above). Initiate the virtual enviroment. Run the command code.
+
+
+# Pipeline compenents and script details: 
 A) Cellprofiler. 
 (1) We have provided cell profiler pipelines but these must be adapted for each use case via the cell profiler GUI. Be certain to keep all the same outputs selected. 
 (2) The outputs from cell profiler are the input speadsheets for the python scripts. 
@@ -33,8 +47,5 @@ Standalone scripts:
 
 (3) standalone_cprof_label: Labels CellProfiler images 
 
-How to Use:
-(1) Download release 
 
-(2) Follow release README instructions
 
