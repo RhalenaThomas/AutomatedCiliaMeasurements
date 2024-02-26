@@ -25,6 +25,10 @@ def main(**args):
     centriole_df = read_cellprofiler_csv(Path(cellprofiler_input_path, "MyExpt_Centriole.csv"), "Centriole")
     cilia_df = read_cellprofiler_csv(Path(cellprofiler_input_path, "MyExpt_Cilia.csv"), "Cilia")
 
+    # Convert Pixels to microms
+    if args["scale"]:
+        nucleus_df, cilia_df, centriole_df = convert_to_microm(float(args["scale"]), nucleus_df, cilia_df, centriole_df)
+
     # Build c2c dataframe
     c2c_df = c2c(nucleus_df, centriole_df, cilia_df)
     c2c_df.to_csv(Path(data_tables_path, "c2c.csv"), index=False)
@@ -55,8 +59,52 @@ def parse_args():
     parser.add_argument(
         "-o", "--output", help="output folder path", required=True
     )
+
+    parser.add_argument(
+        "-x", "--scale", help="Multiplication factor for pixel to microms", required=False
+    )
     
     return vars(parser.parse_args())
+
+def convert_to_microm(
+    multiply_factor, measurements_nuc, measurements_cilia, measurements_cent
+):
+    """
+    Convert measurements to micrometers
+    :param multiply_factor: Conversion factor
+    :param measurements_nuc: Nuclei measurements to convert
+    :param measurements_cilia: Cilia measurements to convert
+    :param measurements_cent: Centriole measurements to convert
+    :returns: Measurements with conversion factor updated
+    """
+
+    to_multiply_x = [
+        "AreaShape_EquivalentDiameter",
+        "AreaShape_MajorAxisLength",
+        "AreaShape_MaxFeretDiameter",
+        "AreaShape_MaximumRadius",
+        "AreaShape_MeanRadius",
+        "AreaShape_MedianRadius",
+        "AreaShape_MinFeretDiameter",
+        "AreaShape_MinorAxisLength",
+        "AreaShape_Perimeter",
+    ]
+
+    to_multiply_2x = ["AreaShape_Area", "AreaShape_BoundingBoxArea"]
+
+    for col in to_multiply_x:
+        measurements_nuc[col] = multiply_factor * measurements_nuc[col]
+        measurements_cilia[col] = multiply_factor * measurements_cilia[col]
+        measurements_cent[col] = multiply_factor * measurements_cent[col]
+
+    multiply_factor_2x = multiply_factor * multiply_factor
+
+    for col in to_multiply_2x:
+        measurements_nuc[col] = multiply_factor_2x * measurements_nuc[col]
+        measurements_cilia[col] = multiply_factor_2x * measurements_cilia[col]
+        measurements_cent[col] = multiply_factor_2x * measurements_cent[col]
+
+    return measurements_nuc, measurements_cilia, measurements_cent
 
 def c2c(nucleus_df, centriole_df, cilia_df):
     # Initialize c2c_df

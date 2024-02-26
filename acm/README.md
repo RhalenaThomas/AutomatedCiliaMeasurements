@@ -6,4 +6,4 @@
 
 ### Activate virtual environment
 
-### Use command `python script.py -i <CellProfiler_csvs_path> -o <Desired output path>`
+### Use command `python script.py -i <CellProfiler_csvs_path> -o <Desired output path> -x <Optional pixel to microm multiplication factor>`
