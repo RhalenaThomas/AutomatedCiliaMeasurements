@@ -4,7 +4,9 @@ Note that Python 3.9 is required. The application does not work for other versio
 
 ## Linux/Mac
 
-First, navigate to the Linux_and_Mac folder. To run the GUI, run `sh gui.sh`. To use the CLI,  run `sh install.sh`, `source ../venv/bin/activate` and finally `automated_cilia_measurements --help`.
+First, navigate to the Linux_and_Mac folder. To use the CLI,  run `sh install.sh`, `source ../venv/bin/activate` and finally `automated_cilia_measurements --help`.
+
+Currently the GUI is not complete. Previously, to run the GUI, you would run `sh gui.sh`. 
 
 # code to run directly in terminal
 cd /release/Linux_and_Mac
