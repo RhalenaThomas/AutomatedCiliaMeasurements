@@ -9,6 +9,8 @@ First, navigate to the Linux_and_Mac folder. To use the CLI,  run `sh install.sh
 Currently the GUI is not complete. Previously, to run the GUI, you would run `sh gui.sh`. 
 
 # code to run directly in terminal
+```
+
 cd /release/Linux_and_Mac
 sh install.sh
 cd ../..
@@ -20,6 +22,7 @@ source venv/bin/activate
 # code to run
 python acm/script.py -i /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/Neuron_cellprofiler_output_csvs -o /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/PythonPipeline_outputs
 
+```
 
 automated_cilia_measurements --help # Ignore this for now. There are multiple versions mismatch now
 
