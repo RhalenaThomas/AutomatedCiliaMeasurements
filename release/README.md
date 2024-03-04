@@ -9,14 +9,15 @@ First, navigate to the Linux_and_Mac folder. To run the GUI, run `sh gui.sh`. To
 # code to run directly in terminal
 cd /release/Linux_and_Mac
 sh install.sh
-cd ../..
+cd ../..    # you need to be in the home github repo folder to run the pipeline
 source venv/bin/activate
 `python acm/script.py -i <CellProfiler_csvs_path> -o <Desired output path>` # example code
+# you must navigate 
 
 # pathway to cell profile output /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/sample_csvs
 # pathway to output /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/test_out2
 # code to run
-python acm/script.py -i /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/Neuron_cellprofiler_output_csvs -o /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/PythonPipeline_outputs
+python acm/script.py -i /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/Neurons_cp_outs_csvs/ -o /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/PythonPipeline_outputs/Neurons/
 
 
 automated_cilia_measurements --help # Ignore this for now. There are multiple versions mismatch now

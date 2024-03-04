@@ -1,0 +1,44 @@
+# RunImageLable
+
+The standalone script is in automated_cilia_measurements
+
+From the parent Github folder navigate to the folder with the script
+
+```
+cd automated_cilia_measurements
+
+```
+
+
+Each staining must be processed separately.  
+Prepare a folder with only one type of image.
+
+-i or --input: Specifies the path to the CellProfiler CSV file containing the coordinates for ROIs.
+-m or --images: Specifies the folder path containing the images on which you want to label the ROIs.
+-f or --file_prefix: Specifies the file prefix entered in CellProfiler SaveImages.
+-nm or --num_digits: Specifies the number of digits entered in CellProfiler SaveImages.
+-o or --output: Specifies the output folder path where the labeled images will be saved.
+-n or --num: Specifies the number of images to label. This argument is optional. All images will be processed if removed.
+
+General example running code with arguments
+
+```
+# run the script with the arguments 
+
+python standalone_cprof_label.py -i path/to/cellprofiler.csv -m path/to/images/folder -f prefix -nm 4 -o path/to/output/folder -n 10
+
+```
+
+Specific example 
+
+```
+python standalone_cprof_label.py -i /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/Neurons_cp_outs_csvs/MyExpt_Centriole.csv -m /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/Neuron_cp_images/Centriole/ -f prefix -nm 4 -o /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/PythonPipeline_outputs/Neurons/output/ImageOverlay/
+
+```
+
+
+python LabelROIs.py -i /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/Neurons_cp_outs_csvs/MyExpt_Centriole.csv -m /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/Neuron_cp_images/Centriole/ -f prefix -nm 4 -o /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/PythonPipeline_outputs/Neurons/output/ImageOverlay/
+
+python LabelROIs.py -i /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/Neurons_cp_outs_csvs/MyExpt_Centriole.csv -m /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/Neuron_cp_images/Centriole/ -nm 4 -o /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/PythonPipeline_outputs/Neurons/output/ImageOverlay/
+
+python LabelROIs.py -i /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/Neurons_cp_outs_csvs/MyExpt_Centriole.csv -m /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/Neuron_cp_images/Centriole/ -o /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/PythonPipeline_outputs/Neurons/output/ImageOverlay/
