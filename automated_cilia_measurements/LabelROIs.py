@@ -37,7 +37,6 @@ def parse_args():
     parser.add_argument("-m", "--images", help="folder with images path", required=True)
     parser.add_argument("-o", "--output", help="output folder path", required=True)
     parser.add_argument("-n", "--num", help="number of images to label", required=False)
-
     return vars(parser.parse_args())
 
 def main(**args):
