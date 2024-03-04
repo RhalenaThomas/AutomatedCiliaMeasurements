@@ -4,9 +4,13 @@ Note that Python 3.9 is required. The application does not work for other versio
 
 ## Linux/Mac
 
-First, navigate to the Linux_and_Mac folder. To run the GUI, run `sh gui.sh`. To use the CLI,  run `sh install.sh`, `source ../venv/bin/activate` and finally `automated_cilia_measurements --help`.
+First, navigate to the Linux_and_Mac folder. To use the CLI,  run `sh install.sh`, `source ../venv/bin/activate` and finally `automated_cilia_measurements --help`.
+
+Currently the GUI is not complete. Previously, to run the GUI, you would run `sh gui.sh`. 
 
 # code to run directly in terminal
+```
+
 cd /release/Linux_and_Mac
 sh install.sh
 cd ../..    # you need to be in the home github repo folder to run the pipeline
@@ -19,6 +23,7 @@ source venv/bin/activate
 # code to run
 python acm/script.py -i /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/Neurons_cp_outs_csvs/ -o /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/PythonPipeline_outputs/Neurons/
 
+```
 
 automated_cilia_measurements --help # Ignore this for now. There are multiple versions mismatch now
 
