@@ -12,7 +12,9 @@ A Pipeline to identify and measure features of cilia, nuclei, and centrioles fro
 
 A) CellProfiler: Install and run a Cellprofiler pipeline using our cell profiler projects as a template. See this site for how to use Cellprofiler.  https://cellprofiler.org/getting-started
    Run your CellProfiler analysis. The outputs must all be in one folder and are required for python pipeline to function. Be sure to keep the default prefix provided by CellProfiler.  The Python pipeline will look for specific file names. 
-B) Python automated cilia detection: Install python pipeline from this github repository (see above). Initiate the virtual enviroment. Run the command code.
+
+   
+B) Python automated cilia detection: Install python pipeline from this github repository (see above). Initiate the virtual enviroment. Run the command code. Details are in the document "README_RUNPIPELINE"
 
 
 # Pipeline compenents and script details: 
