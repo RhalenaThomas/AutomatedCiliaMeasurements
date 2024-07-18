@@ -213,15 +213,15 @@ def c2c(nucleus_df, centriole_df, cilia_df):
     c2c_df["Cent1_Cil"] = c2c_df.apply(lambda x : math.dist(
         [centriole_loc_dict[x["ImageNumber"]][x["Centriole1"]]["Location_Center_X"], centriole_loc_dict[x["ImageNumber"]][x["Centriole1"]]["Location_Center_Y"]], 
         [cilia_loc_dict[x["ImageNumber"]][x["Cilia"]]["Location_Center_X"], cilia_loc_dict[x["ImageNumber"]][x["Cilia"]]["Location_Center_Y"]]
-        ) if pd.notna(x["Centriole1"]) and pd.notna(x["Cilia"]) else np.NaN, axis=1)
+        ) if pd.notna(x["Centriole1"]) and pd.notna(x["Cilia"]) else np.nan, axis=1)
     c2c_df["Cent2_Cil"] = c2c_df.apply(lambda x : math.dist(
         [centriole_loc_dict[x["ImageNumber"]][x["Centriole2"]]["Location_Center_X"], centriole_loc_dict[x["ImageNumber"]][x["Centriole2"]]["Location_Center_Y"]], 
         [cilia_loc_dict[x["ImageNumber"]][x["Cilia"]]["Location_Center_X"], cilia_loc_dict[x["ImageNumber"]][x["Cilia"]]["Location_Center_Y"]]
-        ) if pd.notna(x["Centriole2"]) and pd.notna(x["Cilia"]) else np.NaN, axis=1)
+        ) if pd.notna(x["Centriole2"]) and pd.notna(x["Cilia"]) else np.nan, axis=1)
     c2c_df["Cent1_Cent2"] = c2c_df.apply(lambda x : math.dist(
         [centriole_loc_dict[x["ImageNumber"]][x["Centriole1"]]["Location_Center_X"], centriole_loc_dict[x["ImageNumber"]][x["Centriole1"]]["Location_Center_Y"]], 
         [centriole_loc_dict[x["ImageNumber"]][x["Centriole2"]]["Location_Center_X"], centriole_loc_dict[x["ImageNumber"]][x["Centriole2"]]["Location_Center_Y"]]
-        ) if pd.notna(x["Centriole1"]) and pd.notna(x["Centriole2"]) else np.NaN, axis=1)
+        ) if pd.notna(x["Centriole1"]) and pd.notna(x["Centriole2"]) else np.nan, axis=1)
     
     return c2c_df
 

@@ -1,5 +1,13 @@
 Running notes
 
+
+
+# navigate back to the parent directory
+cd ../..    # you need to be in the home github repo folder to run the pipeline
+source venv/bin/activate
+
+
+
 # neurons - all images have the same conversion factor
 
 python acm/script.py -i /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/Neurons_cp_outs_csvs/ -o /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/PythonPipeline_outputs/Neurons/ --scale 3.52
@@ -39,5 +47,26 @@ python acm/script.py -i /Users/rhalenathomas/GITHUB/AutomatedCiliaMeasurements/N
 ## I will run each in cellprofiler then each here in the python pipeline.
 
 
+# I've activated the environment now I need to get all the data paths and set an output
+# remember to run from inside the main github folder
+# neurons - all images have the same conversion factor
+
+# high threshold Neurons
+python acm/script.py -i /Users/rhalenathomas/Desktop/outs_May3/NeuronsHighThresh -o /Users/rhalenathomas/Desktop/outs_May3/NeuronsHighThresh --scale 3.52
+
+# Medium threshold Neurons
+python acm/script.py -i /Users/rhalenathomas/Desktop/outs_May3/NeuronsMedThresh -o /Users/rhalenathomas/Desktop/outs_May3/NeuronsMedThresh --scale 3.52
+
+# Low threshold Neurons
+python acm/script.py -i /Users/rhalenathomas/Desktop/outs_May3/NeuronsLowThresh -o /Users/rhalenathomas/Desktop/outs_May3/NeuronsLowThresh --scale 3.52
 
 
+### one folder of NPC only I only rand the 210310 NPC group and this is the 2.64 micron conversion
+# High threshold NPC
+python acm/script.py -i /Users/rhalenathomas/Desktop/outs_May3/NPCHightThresh -o /Users/rhalenathomas/Desktop/outs_May3/NPCHightThresh --scale 2.64
+
+# Med threshold NPC
+python acm/script.py -i /Users/rhalenathomas/Desktop/outs_May3/NPCMedThesh -o /Users/rhalenathomas/Desktop/outs_May3/NPCMedThesh --scale 2.64
+
+# Low threshold NPC
+python acm/script.py -i /Users/rhalenathomas/Desktop/outs_May3/NPCLowThresh -o /Users/rhalenathomas/Desktop/outs_May3/NPCLowThresh --scale 2.64
