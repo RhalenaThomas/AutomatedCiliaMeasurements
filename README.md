@@ -86,7 +86,7 @@ B) Python pipeline to match cilia and centroiles with nuclei, summarize feature 
 
 (2) clustering: X-Means clustering on valid cilia results from output.
 
-(3) label_cprof_im: Labels CellProfiler images with numbers from CellProfiler spreadsheets.  DOES NOT take the center2center algorithm into account (i.e. this will not differentiate between invalid/valid measurements).
+(3) label_cprof_im: Labels CellProfiler images with numbers from CellProfiler spreadsheets. DOES NOT take the center2center algorithm into account (i.e. this will not differentiate between invalid/valid measurements).
 
 (4) data_table: Makes a data table with a couple of key summary measurements: average number of cilia, average number of nuclei, present cilia/present nuclei, average nuclei area, average cilia length, average cilia area for all images.
 
